@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+
+# Build output
+build/
+dist/
+
+# Test
+coverage/
+
+# Environment variables (keep .env.example as template)
+.env*
+!.env.example
+
+# User data (passwords, etc.)
+data/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Misc
+*.tgz
+.cache/

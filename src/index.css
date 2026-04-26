@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-primary: #2D5A27;
+  --color-brand-secondary: #4DB6AC;
+  --color-brand-bg: #E0F2F1;
+  --color-brand-accent: #00796B;
+}
+
+@layer base {
+  body {
+    @apply bg-brand-bg text-gray-800 font-sans;
+    background: linear-gradient(-45deg, #e0f2f1, #b2dfdb, #80cbc4, #4db6ac);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.glass-card {
+  @apply bg-white/70 backdrop-blur-md border border-white/30 rounded-2xl shadow-xl;
+}
+
