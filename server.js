@@ -2,8 +2,12 @@ import express from "express";
 import { config } from "dotenv";
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { createHash, randomUUID } from "crypto";
+import { fileURLToPath } from "url";
+import pathModule from "path";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
+const __dirname = pathModule.dirname(fileURLToPath(import.meta.url));
 
 config({ path: ".env.local" });
 
@@ -365,7 +369,7 @@ app.post("/api/polish", async (req, res) => {
 学生的日记: "${safeContent}"
 
 请提供:
-1. polished: 润色后的自然、地道版本（用${targetLanguage}写）。润色要保持原文的语气和风格，简单的内容就用流畅自然的表达，不要刻意堆砌高级词汇；在合适的地方适当提升用词档次即可。
+1. polished: 润色后的自然、地道版本（用${targetLanguage}写）。优先使用口语化、日常对话中最自然的表达方式，保持原文的语气和风格，不要刻意堆砌复杂书面词汇。简单的内容就用流畅自然的口语表达，只有当原文本身是正式语境时才使用书面化表达。
 2. corrections: 用中文说明语法修正内容。
 3. errorSummary: 用中文总结学生的常见错误。
 4. patterns: 从润色版本中提取 2-3 个实用句型，pattern 用${targetLanguage}写，meaning 用中文解释。
@@ -522,7 +526,7 @@ app.post("/api/polish/stream", (req, res) => {
 学生的日记: "${safeContent}"
 
 请提供:
-1. polished: 润色后的自然、地道版本（用${targetLanguage}写）。润色要保持原文的语气和风格，简单的内容就用流畅自然的表达，不要刻意堆砌高级词汇；在合适的地方适当提升用词档次即可。
+1. polished: 润色后的自然、地道版本（用${targetLanguage}写）。优先使用口语化、日常对话中最自然的表达方式，保持原文的语气和风格，不要刻意堆砌复杂书面词汇。简单的内容就用流畅自然的口语表达，只有当原文本身是正式语境时才使用书面化表达。
 2. corrections: 用中文说明语法修正内容。
 3. errorSummary: 用中文总结学生的常见错误。
 4. patterns: 从润色版本中提取 2-3 个实用句型，pattern 用${targetLanguage}写，meaning 用中文解释。
@@ -587,7 +591,7 @@ app.post("/api/polish/fast", async (req, res) => {
 学生的日记: "${safeContent}"
 
 请提供:
-1. polished: 润色后的自然、地道版本（用${targetLanguage}写）。润色要保持原文的语气和风格，简单的内容就用流畅自然的表达，不要刻意堆砌高级词汇；在合适的地方适当提升用词档次即可。
+1. polished: 润色后的自然、地道版本（用${targetLanguage}写）。优先使用口语化、日常对话中最自然的表达方式，保持原文的语气和风格，不要刻意堆砌复杂书面词汇。简单的内容就用流畅自然的口语表达，只有当原文本身是正式语境时才使用书面化表达。
 2. corrections: 用中文说明语法修正内容。
 3. errorSummary: 用中文总结学生的常见错误。
 4. patterns: 从润色版本中提取 2-3 个实用句型，pattern 用${targetLanguage}写，meaning 用中文解释。
@@ -633,6 +637,12 @@ Return ONLY valid JSON: {"reference": "你的翻译"}`;
     console.error("Pregenerate error:", err.message);
     res.json({ reference: null });
   }
+});
+
+// 生产环境托管前端静态文件
+app.use(express.static(pathModule.join(__dirname, "dist")));
+app.get("*", (req, res) => {
+  res.sendFile(pathModule.join(__dirname, "dist", "index.html"));
 });
 
 const PORT = process.env.PORT || 3001;

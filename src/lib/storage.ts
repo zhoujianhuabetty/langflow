@@ -1,5 +1,13 @@
 import { format } from "date-fns";
 
+function generateId(): string {
+  try {
+    return generateId();
+  } catch {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+  }
+}
+
 export interface TranslationRecord {
   id: string;
   chinese: string;
@@ -66,7 +74,7 @@ export const storage = {
     const records = storage.getTranslations();
     const newRecord = {
       ...record,
-      id: crypto.randomUUID(),
+      id: generateId(),
       date: format(new Date(), "yyyy-MM-dd"),
     };
     localStorage.setItem(STORAGE_KEYS.TRANSLATIONS, JSON.stringify([newRecord, ...records]));
@@ -84,7 +92,7 @@ export const storage = {
     const records = storage.getDiaries();
     const newRecord = {
       ...record,
-      id: crypto.randomUUID(),
+      id: generateId(),
       date: format(new Date(), "yyyy-MM-dd"),
     };
     localStorage.setItem(STORAGE_KEYS.DIARIES, JSON.stringify([newRecord, ...records]));
