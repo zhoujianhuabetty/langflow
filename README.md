@@ -1,6 +1,7 @@
 # LangFlow
 
 > 一个极简的语言学习平台，支持每日翻译练习和 AI 日记润色。
+> A minimalist language learning platform with daily translation practice and AI diary polishing.
 
 ## 功能特性
 
